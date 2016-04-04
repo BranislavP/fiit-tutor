@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class UsersController < ApplicationController
   before_action :logged_in_user , only: [:edit, :update, :index, :destroy]
   before_action :correct_user   , only: [:edit, :update]
@@ -9,7 +11,8 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where(activated: true).paginate(page: params[:page])
+    @users = User.find_by_sql("SELECT * FROM users WHERE activated = 't'").paginate(page: params[:page])
+    #@users = User.where(activated: true).paginate(page: params[:page])
   end
 
   def show
