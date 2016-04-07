@@ -2,7 +2,7 @@ require 'will_paginate/array'
 
 class UsersController < ApplicationController
   before_action :logged_in_user , only: [:edit, :update, :index, :destroy]
-  before_action :correct_user   , only: [:edit, :update]
+  before_action :correct_user   , only: [:edit, :update, :destroy]
 
 
   def new
