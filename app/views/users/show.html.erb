@@ -9,3 +9,10 @@
     </section>
   </aside>
 </div>
+<% if !current_user.admin? && current_user?(@user) %>
+    <div class="text-right">
+      <i class="glyphicon glyphicon-trash"></i>
+      <%= link_to "Delete account", @user, method: :delete,
+                      data: { confirm: "Are you sure you want to delete your account?" } %>
+    </div>
+<% end %>
