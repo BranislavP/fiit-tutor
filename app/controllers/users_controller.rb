@@ -10,12 +10,14 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.find_by_sql("SELECT * FROM users WHERE activated = 't'").paginate(page: params[:page])
+    @users = User.find_by_sql("SELECT u.id, u.name, email, COUNT(e.id) AS count FROM users u LEFT JOIN events e ON u.id = e.user_id WHERE activated = 't'
+                             GROUP BY u.name, u.id, email ORDER BY u.id").paginate(page: params[:page])
     #@users = User.where(activated: true).paginate(page: params[:page])
   end
 
   def show
     @user = User.find(params[:id])
+    @events = Event.where("user_id = #{@user.id}")
     redirect_to root_url and return unless @user.activated?
   end
 
@@ -57,15 +59,6 @@ class UsersController < ApplicationController
   end
 
   # Before filters
-
-  # Confirms a logged-in user.
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in."
-      redirect_to login_url
-    end
-  end
 
   # Confirms the correct user.
   def correct_user

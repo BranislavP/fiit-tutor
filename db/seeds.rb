@@ -17,3 +17,4 @@ User.create!(name:  "Branislav Pecher",
                activated: true,
                activated_at: Time.zone.now)
 end
+

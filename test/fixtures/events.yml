@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+#one:
+ # subject: MyString
+ # description: MyText
+ # place: MyString
+ # date: 2016-04-08 09:36:15
+ # cost:
+
+#two:
+#  subject: MyString
+#  description: MyText
+#  place: MyString
+#  date: 2016-04-08 09:36:15
+#  cost:

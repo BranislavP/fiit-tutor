@@ -16,3 +16,11 @@
                       data: { confirm: "Are you sure you want to delete your account?" } %>
     </div>
 <% end %>
+<h3>Owned events:</h3>
+<% if !@events.any? %>
+    <p>No events yet.</p>
+<% else %>
+<ul class="events">
+  <%= render @events %>
+</ul>
+<% end %>

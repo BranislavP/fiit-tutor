@@ -1,12 +1,25 @@
-<div class="center jumbotron">
-  <h1>FIIT-Tutor</h1>
-
-  <h2>
-    This is the home page for the <span class="fiit-tutor-imp">Fiit-Tutor</span> application.
-  </h2>
-  <p>In order to use this page you need to register.</p>
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</div>
-<%= link_to "Alredy have an account?", login_path, class: "btn btn-lg btn-link" %>
-
+<% if logged_in? %>
+    <div class="text-right">
+      <%= link_to "Create event", creation_path, class: "btn btn-primary text-right" %>
+    </div>
+    <% if @events.any? %>
+        <%= will_paginate @events %>
+        <ul class="events">
+          <%= render @events %>
+        </ul>
+        <%= will_paginate @events %>
+    <% else %>
+        <h2>There are no events created yet</h2>
+    <% end %>
+<% else %>
+  <div class="center jumbotron">
+    <h1>FIIT-Tutor</h1>
+    <h2>
+      This is the home page for the <span class="fiit-tutor-imp">Fiit-Tutor</span> application.
+    </h2>
+    <p>In order to use this page you need to register.</p>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+  </div>
+  <%= link_to "Alredy have an account?", login_path, class: "btn btn-lg btn-link" %>
+<% end %>
 

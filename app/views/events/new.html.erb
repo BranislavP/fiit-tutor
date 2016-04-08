@@ -1,0 +1,30 @@
+<% provide(:title, 'Event creation') %>
+<h1>Create event</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@event) do |f| %>
+        <%= render 'shared/error_messages', object: @event %>
+
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+
+        <%= f.label :subject %>
+        <%= f.text_field :subject, class: 'form-control' %>
+
+        <%= f.label :description %>
+        <%= f.text_area :description, class: 'form-control', placeholder: 'Describe your event' %>
+
+        <%= f.label :place %>
+        <%= f.text_field :place, class: 'form-control' %>
+
+        <%= f.label "#{:cost} (per hour)" %>
+        <%= f.text_field :cost, class: 'form-control', value: 0 %>
+
+        <%= f.label :date %>
+        <%= f.datetime_select :date, :order => [:hour, :minute, :day, :month, :year], class: 'form_control' %>
+
+        <%= f.submit "Create event", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
