@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   def index
     redirect_to root_url
   end
+
   def new
     @event = Event.new
   end
