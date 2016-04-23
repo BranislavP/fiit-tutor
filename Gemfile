@@ -15,6 +15,9 @@ gem 'will_paginate',           '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'redis-rails'
+gem 'redis'
+gem 'redis-namespace'
 
 group :development do
   gem 'byebug'

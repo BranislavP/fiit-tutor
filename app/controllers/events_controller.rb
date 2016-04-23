@@ -19,6 +19,7 @@ class EventsController < ApplicationController
     Event.transaction do
       @event = current_user.events.build(event_params)
       if @event.save
+        $redis.del('events')
         flash[:success] = "Event created"
         redirect_to root_url
       else
@@ -29,6 +30,7 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
+    $redis.del('events')
     flash[:success] = "Event deleted"
     redirect_to root_url
   end

@@ -5,7 +5,10 @@
     <% if @events.any? %>
         <%= will_paginate @events %>
         <ul class="events">
-          <%= render @events %>
+              <% @events.map { |event| %>
+                  <li> <%= link_to event['name'], "events/#{event['id']}" %> </li>
+              <%} %>
+
         </ul>
         <%= will_paginate @events %>
     <% else %>

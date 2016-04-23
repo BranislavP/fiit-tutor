@@ -23,6 +23,7 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
+    $redis.del('events')
     flash[:success] = "User deleted"
     redirect_to root_url
   end
