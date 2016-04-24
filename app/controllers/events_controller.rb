@@ -14,6 +14,9 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @user = User.find(@event.user_id)
     @event_sign = EventUser.new
+    user_iden = request.remote_ip + current_user.id.to_s
+    $redis.sadd("#{@event.id}", "#{user_iden}")
+    @card = $redis.scard("#{@event.id}")
   end
 
   def create

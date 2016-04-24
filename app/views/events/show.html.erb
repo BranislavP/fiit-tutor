@@ -27,3 +27,7 @@ Owned by:
                   data: { confirm: "Are you sure you want to delete this event?" } %>
     </div>
 <% end %>
+
+<% if !@card.nil? %>
+  <p>Visited <%= pluralize(@card, "time") %>.</p>
+<% end %>

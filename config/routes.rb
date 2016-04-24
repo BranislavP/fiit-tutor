@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get   'signup' => 'users#new'
   get   'login' =>  'sessions#new'
   get   'creation' => 'events#new'
+  get   'reset' => 'static_pages#reset_visits'
   post  'login' =>  'sessions#create'
   delete  'logout' => 'sessions#destroy'
 
