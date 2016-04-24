@@ -12,8 +12,10 @@ Rails.application.routes.draw do
   get   'creation' => 'events#new'
   post  'login' =>  'sessions#create'
   delete  'logout' => 'sessions#destroy'
+
   resources :users
   resources :events
+  resources :event_users, only: [:create, :destroy]
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 

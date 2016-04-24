@@ -17,7 +17,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @events = Event.where("user_id = #{@user.id}")
+    @events = Event.where("user_id = #{@user.id}").paginate(page: params[:owned], per_page: 10)
+    @signed_events = Event.find_by_sql("SELECT e.id, e.name FROM event_users euv JOIN users u ON u.id = euv.user_id
+                                       JOIN events e ON e.id = euv.event_id WHERE euv.user_id = #{@user.id}
+                                       AND EXTRACT(epoch FROM(e.date - CURRENT_TIMESTAMP)) > 0").paginate(page: params[:attending], per_page: 10)
     redirect_to root_url and return unless @user.activated?
   end
 
@@ -64,7 +67,7 @@ class UsersController < ApplicationController
   # Confirms the correct user.
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user)
+    redirect_to(root_url) unless (current_user?(@user) || current_user.admin?)
   end
 
   # Confirms an admin user.

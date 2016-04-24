@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many  :event_users, dependent: :destroy
   has_many  :events, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email

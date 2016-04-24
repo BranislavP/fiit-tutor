@@ -18,6 +18,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'redis-rails'
 gem 'redis'
 gem 'redis-namespace'
+gem 'formtastic', '~> 3.0'
 
 group :development do
   gem 'byebug'

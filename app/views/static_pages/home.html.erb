@@ -8,7 +8,6 @@
               <% @events.map { |event| %>
                   <li> <%= link_to event['name'], "events/#{event['id']}" %> </li>
               <%} %>
-
         </ul>
         <%= will_paginate @events %>
     <% else %>
