@@ -10,7 +10,7 @@ class EventUsersController < ApplicationController
     @event_sign = current_user.event_users.build(event_users_params)
     if @event_sign.save
       flash[:success] = "Signed up"
-      redirect_back_or current_user
+      redirect_to event_path params[:event_user][:event_id]
     else
       flash[:danger] = "Already signed up"
       redirect_to root_url
@@ -18,9 +18,14 @@ class EventUsersController < ApplicationController
   end
 
   def destroy
-    EventUser.find_by(event_id: params[:id], user_id: current_user.id).destroy
-    flash[:success] = "No longer signed to event"
-    redirect_to current_user
+    Event.transaction do
+      EventUser.find_by(event_id: params[:id], user_id: current_user.id).destroy
+      Comment.where(event_id: params[:id], user_id: current_user.id).find_each do |comment|
+        comment.destroy
+      end
+      flash[:success] = "No longer signed to event"
+      redirect_to event_path params[:id]
+    end
   end
 
   private
@@ -45,14 +50,6 @@ class EventUsersController < ApplicationController
   def unattending_user
     @attendance = EventUser.find_by(user_id: current_user.id, event_id: params[:event_id])
     redirect_to root_url unless @attendance.nil?
-  end
-
-  def outdated
-    id = params[:id]
-    if id.nil?
-      id = params[:event_user][:event_id]
-    end
-    event = Event.where("id = ? AND EXTRACT(epoch FROM(date - CURRENT_TIMESTAMP)) > 0", id)
   end
 
 end

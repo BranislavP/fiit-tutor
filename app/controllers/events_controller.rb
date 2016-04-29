@@ -15,9 +15,12 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @user = User.find(@event.user_id)
     @event_sign = EventUser.new
+    @comments = Comment.find_by_sql("SELECT u.id AS iden, c.id, name, content, c.event_id FROM comments c JOIN users u ON u.id = c.user_id
+                                   WHERE c.event_id = #{params[:id]} ORDER BY c.created_at ASC").paginate(page: params[:page], per_page: 10)
     user_iden = request.remote_ip + current_user.id.to_s
     $redis.sadd("#{@event.id}", "#{user_iden}")
     @card = $redis.scard("#{@event.id}")
+    @new_comment = Comment.new
   end
 
   def create
@@ -26,7 +29,7 @@ class EventsController < ApplicationController
       if @event.save
         $redis.del('events')
         flash[:success] = "Event created"
-        redirect_to root_url
+        redirect_to @event
       else
         render 'new'
       end
@@ -36,6 +39,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     $redis.del('events')
+    $redis.del(@event.id)
     flash[:success] = "Event deleted"
     redirect_to root_url
   end
@@ -51,8 +55,4 @@ class EventsController < ApplicationController
     redirect_to root_url if @event.nil?
   end
 
-  def outdated
-    event = Event.where("id = ? AND EXTRACT (epoch FROM(date - CURRENT_TIMESTAMP)) > 0", params[:id])
-    redirect_to root_url unless event.any?
-  end
 end

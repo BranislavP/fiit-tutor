@@ -11,7 +11,9 @@ Owned by:
           <%= f.submit "Attend event", class: "btn btn-success input-btn" %>
         <% end %>
     <% else %>
-        <%= link_to "No longer interested", event_user_path, method: :delete, class: "btn btn-danger" %>
+        <%= link_to "No longer interested", event_user_path, method: :delete,
+                    data: { confirm: "Are you sure you want to cancel your attendance? All your comments will be deleted" },
+                    class: "btn btn-danger" %>
     <% end %>
 <% end %>
 <p>Subject - <%= @event.subject %></p>
@@ -31,3 +33,21 @@ Owned by:
 <% if !@card.nil? %>
   <p>Visited <%= pluralize(@card, "time") %>.</p>
 <% end %>
+<% if signed_in?(current_user, @event)  %>
+  <br><hr>
+  <h3>Comments:</h3>
+  <% if @comments.any? %>
+    <ul class="comments">
+      <%= render @comments %>
+    </ul>
+      <%= will_paginate @comments %>
+  <% else  %>
+    <p>No comments yet!</p>
+  <% end  %>
+  <%= form_for(@new_comment) do |f| %>
+      <%= render 'shared/error_messages', object: @new_comment %>
+      <%= f.hidden_field :event_id, as: :hidden, value: @event.id %>
+      <%= f.text_area :content, class: 'form_control' %>
+      <%= f.submit "Send comment", class: "btn btn-success input-btn" %>
+  <% end %>
+<% end  %>

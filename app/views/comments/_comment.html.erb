@@ -1,0 +1,11 @@
+<li>
+  Sent by: <%= link_to comment.name, "../users/#{comment.iden}" %>
+  <% if current_user.id == comment.iden %>
+      <div class="text-right">
+        <i class="glyphicon glyphicon-trash"></i>
+        <%= link_to "Delete comment", comment_path(id: comment.id, event_id: comment.event_id), method: :delete,
+                    data: { confirm: "Are you sure you want to delete this comment?" }, class: "" %>
+      </div>
+  <% end  %>
+  <p><%= comment.content %></p>
+</li>
