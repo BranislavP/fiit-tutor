@@ -45,9 +45,8 @@ Owned by:
     <p>No comments yet!</p>
   <% end  %>
   <%= form_for(@new_comment) do |f| %>
-      <%= render 'shared/error_messages', object: @new_comment %>
       <%= f.hidden_field :event_id, as: :hidden, value: @event.id %>
-      <%= f.text_area :content, class: 'form_control' %>
+      <%= f.text_area :content %>
       <%= f.submit "Send comment", class: "btn btn-success input-btn" %>
   <% end %>
 <% end  %>
