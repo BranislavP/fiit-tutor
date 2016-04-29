@@ -12,12 +12,11 @@ class UsersController < ApplicationController
   def index
     @users = User.find_by_sql("SELECT u.id, u.name, email, COUNT(e.id) AS count FROM users u LEFT JOIN events e ON u.id = e.user_id WHERE activated = 't'
                              GROUP BY u.name, u.id, email ORDER BY u.id").paginate(page: params[:page])
-    #@users = User.where(activated: true).paginate(page: params[:page])
   end
 
   def show
     @user = User.find(params[:id])
-    @events = Event.where("user_id = #{@user.id}").paginate(page: params[:owned], per_page: 10)
+    @events = Event.where("user_id = ? AND EXTRACT(epoch FROM(date - CURRENT_TIMESTAMP)) > 0", @user.id).paginate(page: params[:owned], per_page: 10)
     @signed_events = Event.find_by_sql("SELECT e.id, e.name FROM event_users euv JOIN users u ON u.id = euv.user_id
                                        JOIN events e ON e.id = euv.event_id WHERE euv.user_id = #{@user.id}
                                        AND EXTRACT(epoch FROM(e.date - CURRENT_TIMESTAMP)) > 0").paginate(page: params[:attending], per_page: 10)

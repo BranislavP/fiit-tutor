@@ -4,6 +4,7 @@ class EventUsersController < ApplicationController
   before_action :other_user, only: [:create, :destroy]
   before_action :attending_user, only: [:destroy]
   before_action :unattending_user, only: [:create]
+  before_action :outdated, only: [:create]
 
   def create
     @event_sign = current_user.event_users.build(event_users_params)
@@ -43,7 +44,15 @@ class EventUsersController < ApplicationController
 
   def unattending_user
     @attendance = EventUser.find_by(user_id: current_user.id, event_id: params[:event_id])
-    redirect_to root_url if !@attendance.nil?
+    redirect_to root_url unless @attendance.nil?
+  end
+
+  def outdated
+    id = params[:id]
+    if id.nil?
+      id = params[:event_user][:event_id]
+    end
+    event = Event.where("id = ? AND EXTRACT(epoch FROM(date - CURRENT_TIMESTAMP)) > 0", id)
   end
 
 end

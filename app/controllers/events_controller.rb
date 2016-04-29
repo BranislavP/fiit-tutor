@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :logged_in_user, only: [:show, :create, :destroy]
   before_action :correct_user,   only: :destroy
+  before_action :outdated, only: :show
   
   def index
     redirect_to root_url
@@ -48,5 +49,10 @@ class EventsController < ApplicationController
   def correct_user
     @event = current_user.events.find_by(id: params[:id])
     redirect_to root_url if @event.nil?
+  end
+
+  def outdated
+    event = Event.where("id = ? AND EXTRACT (epoch FROM(date - CURRENT_TIMESTAMP)) > 0", params[:id])
+    redirect_to root_url unless event.any?
   end
 end
