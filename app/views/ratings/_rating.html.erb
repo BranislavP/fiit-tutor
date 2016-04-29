@@ -1,0 +1,13 @@
+<li>
+  <div class="col-md-8">
+    <p><%= link_to rating.name, "../users/#{rating.user_id}" %> - <%= rating.score %>/10</p>
+    <p><%= rating.content %></p>
+  </div>
+  <% if current_user.id == rating.user_id %>
+      <div class="text-right">
+        <i class="glyphicon glyphicon-trash"></i>
+        <%= link_to "Delete comment", rating_path(id: rating.id, user_id: rating.tutor_id), method: :delete,
+                          data: { confirm: "Are you sure you want to delete this rating?" } %>
+      </div>
+  <% end  %>
+</li>

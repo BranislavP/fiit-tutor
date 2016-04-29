@@ -39,3 +39,10 @@ users = User.order(:created_at).take(50)
   cost = (1..19).to_a.sample
   user.events.create!(name: name, subject:subject, description: description, place: place, cost: cost, date: Time.zone.tomorrow) }
 end
+
+user1 = User.first
+user2 = User.find(2)
+test_event = user2.events.create!(name: "Testovaci event", subject: "VOS", description: "Only for testing", place: "FIIT", cost: 8, date: Time.zone.tomorrow)
+user1.event_users.create!(event_id: test_event.id)
+finished_event = user2.events.create!(name: "Vcerajsi", subject: "VOS", description: "Uz bol", place: "FIIT", cost: 8, date: Time.zone.now)
+user1.event_users.create!(event_id: finished_event.id)

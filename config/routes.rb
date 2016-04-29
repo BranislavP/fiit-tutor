@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :events
   resources :event_users, only: [:create, :destroy]
   resources :comments, only: [:create, :destroy]
+  resources :ratings, only: [:create, :destroy]
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 

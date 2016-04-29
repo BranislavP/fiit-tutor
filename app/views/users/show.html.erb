@@ -46,3 +46,27 @@
     <% end %>
   </div>
 </div>
+  <div class="container">
+    <ul class="ratings">
+      <div class="row">
+        <%= render @rating %>
+        <%= will_paginate @rating, param_name: :rate %>
+      </div>
+    </ul>
+  </div>
+<% if attended_event?(@user) %>
+    <%= form_for(@new_rating) do |f| %>
+        <%= render 'shared/error_messages', object: @new_rating %>
+
+        <%= f.hidden_field :tutor_id, as: :hidden, value: @user.id %>
+
+        <%= f.label "#{:score} out of 10"%>
+        <%= f.text_field :score, class: 'form-control', value: 10 %>
+
+        <%= f.label :content %>
+        <%= f.text_area :content, class: 'form_control' %>
+
+        <%= f.submit "Rate", class: "btn btn-success input-btn" %>
+
+    <% end %>
+<% end %>

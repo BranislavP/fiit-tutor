@@ -20,6 +20,10 @@ class UsersController < ApplicationController
     @signed_events = Event.find_by_sql("SELECT e.id, e.name FROM event_users euv JOIN users u ON u.id = euv.user_id
                                        JOIN events e ON e.id = euv.event_id WHERE euv.user_id = #{@user.id}
                                        AND EXTRACT(epoch FROM(e.date - CURRENT_TIMESTAMP)) > 0").paginate(page: params[:attending], per_page: 10)
+    @new_rating = Rating.new
+    @rating = Rating.find_by_sql("SELECT u.name, user_id, score, content, tutor_id, r.id FROM ratings r JOIN users u ON u.id = r.user_id
+                                 WHERE tutor_id = #{params[:id]} AND user_id = #{current_user.id}
+                                ORDER BY r.created_at ASC").paginate(page: params[:rate], per_page: 5)
     redirect_to root_url and return unless @user.activated?
   end
 
