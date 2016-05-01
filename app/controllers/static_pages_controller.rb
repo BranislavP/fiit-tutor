@@ -26,9 +26,8 @@ class StaticPagesController < ApplicationController
   end
 
   def reset_visits
-    events = Event.all
-    events.each do |event|
-      $redis.expire(event.id, 1)
+    Event.find_each do |event|
+      $redis.del(event.id)
     end
     flash[:success] = "Visit reset!"
     redirect_to root_url
