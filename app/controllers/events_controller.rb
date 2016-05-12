@@ -18,8 +18,8 @@ class EventsController < ApplicationController
     @comments = Comment.find_by_sql("SELECT u.id AS iden, c.id, name, content, c.event_id FROM comments c JOIN users u ON u.id = c.user_id
                                    WHERE c.event_id = #{params[:id]} ORDER BY c.created_at ASC").paginate(page: params[:page], per_page: 10)
     user_iden = request.remote_ip + current_user.id.to_s
-    $redis.sadd("#{@event.id}", "#{user_iden}")
-    @card = $redis.scard("#{@event.id}")
+    $redis.pfadd("#{@event.id}", "#{user_iden}")
+    @card = $redis.pfcount("#{@event.id}")
     @new_comment = Comment.new
   end
 
