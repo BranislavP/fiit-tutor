@@ -7,7 +7,7 @@ class StaticPagesController < ApplicationController
     if logged_in?
       events = $redis.get('events')
       if events.nil?
-        events = Event.where("EXTRACT (epoch FROM(date - CURRENT_TIMESTAMP)) > 0").to_json
+        events = Event.where("EXTRACT (epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0").to_json
         $redis.set('events', events)
         $redis.expire('events', 1.day)
       end

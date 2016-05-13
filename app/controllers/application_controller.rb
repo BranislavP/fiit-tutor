@@ -13,15 +13,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def outdated
-    id = params[:id]
-    if id.nil?
-      id = params[:event_user][:event_id]
-    end
-    event = Event.where("id = ? AND EXTRACT(epoch FROM(date - CURRENT_TIMESTAMP)) > 0", id)
-    redirect_to root_url unless event.any?
-  end
-
   # Confirms an admin user.
   def admin_user
     redirect_to(root_url) unless current_user.admin?

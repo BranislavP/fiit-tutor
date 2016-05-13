@@ -55,4 +55,13 @@ class EventsController < ApplicationController
     redirect_to root_url if @event.nil?
   end
 
+  def outdated
+    id = params[:id]
+    if id.nil?
+      id = params[:event_user][:event_id]
+    end
+    event = Event.where("id = ? AND EXTRACT(epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0", id)
+    redirect_to root_url unless event.any?
+  end
+
 end

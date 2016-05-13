@@ -4,7 +4,7 @@
 Owned by:
 <%= link_to @user.name, @user %>
 </h3>
-<% if !current_user?(@user) %>
+<% if !current_user?(@user) && !outdated?(@event) %>
     <% if !signed_in?(current_user, @event) %>
         <%= form_for(@event_sign) do |f| %>
           <%= f.hidden_field :event_id, as: :hidden, value: @event.id %>
