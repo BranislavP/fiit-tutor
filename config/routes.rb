@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :ratings, only: [:create, :destroy]
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :subjects, only: [:index]
 
 
   # The priority is based upon order of creation: first created -> highest priority.

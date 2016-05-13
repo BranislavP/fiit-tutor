@@ -17,6 +17,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'redis'
 gem 'formtastic', '~> 3.0'
+gem 'rest-client'
+gem 'nokogiri'
 
 group :development do
   gem 'byebug'
