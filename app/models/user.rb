@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many  :events, dependent: :destroy
   has_many  :comments, dependent: :destroy
   has_many  :ratings, class_name: 'Rating', :foreign_key => 'user_id'
+  has_many  :requests, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
@@ -67,6 +68,10 @@ class User < ActiveRecord::Base
   # Returns true if a password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def send_requested_event_created(subject, event)
+    UserMailer.requested_event(self, subject, event).deliver_now
   end
 
   private

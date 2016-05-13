@@ -52,7 +52,7 @@ end
 users = User.order(:created_at).take(8)
 5.times do
   users.each do |user|
-    subject = rand(0..15)
+    subject = rand(1..30)
     name = Faker::Lorem.sentence(5)
     description = Faker::Lorem.sentence(25)
     place = "FIIT"
@@ -66,7 +66,7 @@ user.events.create!(name: "Uplne mega event o DBS", subject_id: 3, description: 
 users = User.order(:created_at).take(50)
 100.times do
   users.each do |user|
-    subject = rand(0..15)
+    subject = rand(1..30)
     name = Faker::Lorem.sentence(5)
     description = Faker::Lorem.sentence(25)
     place = "FIIT"

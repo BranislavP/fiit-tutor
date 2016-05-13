@@ -29,6 +29,14 @@ class EventsController < ApplicationController
       @event = current_user.events.build(event_params)
       if @event.save
         $redis.del('events')
+        subject = Subject.find(@event.subject_id)
+        Request.find_each do |request|
+          if request.subject_id == @event.subject_id
+            user = User.find(request.user_id)
+            user.send_requested_event_created(subject, @event)
+            request.destroy
+          end
+        end
         flash[:success] = "Event created"
         redirect_to @event
       else

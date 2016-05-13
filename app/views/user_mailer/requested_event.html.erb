@@ -1,0 +1,9 @@
+<h1>FIIT-TUTOR</h1>
+
+<p>Hi <%= @user.name %>,</p>
+
+<p>
+  An event was created for the <%= @subject.name %> which you requested.
+</p>
+Check the event
+<%= link_to "now", @event %>.

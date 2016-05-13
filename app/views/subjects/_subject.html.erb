@@ -1,3 +1,13 @@
 <li>
-  <%= subject.acronym %> - <%= subject.name %>
+  <div class="col-md-6">
+    <%= subject.acronym %> - <%= subject.name %>
+  </div>
+  <div class="col-md-6 text-right">
+    Number of requests: <%= subject.count %> |
+    <% if requested?(subject, current_user)  %>
+      <%= link_to "Cancel request", request_path(id: subject.id), method: :delete %>
+    <% else %>
+      <%= link_to "Request", requests_path(subject_id: subject.id), method: :post %>
+    <% end %>
+  </div>
 </li>
