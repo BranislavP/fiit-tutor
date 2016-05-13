@@ -12,14 +12,15 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
-    @user = User.find(@event.user_id)
+    @event = Event.find_by_sql("SELECT e.id, e.description, e.place, e.date, e.cost, e.user_id, e.name, s.acronym, s.name AS sub_name FROM events e
+                               JOIN subjects s ON s.id = e.subject_id WHERE e.id = #{params[:id]} LIMIT 1")
+    @user = User.find(@event[0].user_id)
     @event_sign = EventUser.new
     @comments = Comment.find_by_sql("SELECT u.id AS iden, c.id, name, content, c.event_id FROM comments c JOIN users u ON u.id = c.user_id
                                    WHERE c.event_id = #{params[:id]} ORDER BY c.created_at ASC").paginate(page: params[:page], per_page: 10)
     user_iden = request.remote_ip + current_user.id.to_s
-    $redis.pfadd("#{@event.id}", "#{user_iden}")
-    @card = $redis.pfcount("#{@event.id}")
+    $redis.pfadd("#{@event[0].id}", "#{user_iden}")
+    @card = $redis.pfcount("#{@event[0].id}")
     @new_comment = Comment.new
   end
 
@@ -47,7 +48,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:name, :subject, :description, :place, :cost, :date)
+    params.require(:event).permit(:name, :subject_id, :description, :place, :cost, :date)
   end
 
   def correct_user

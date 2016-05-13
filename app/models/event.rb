@@ -1,10 +1,11 @@
 class Event < ActiveRecord::Base
   belongs_to :user
+  belongs_to :subject
   has_many  :event_users, dependent: :destroy
   has_many  :comments, dependent: :destroy
   default_scope -> { order(created_at: :desc) }
   validates :name, presence: true, length: { maximum: 255 }
-  validates :subject, presence: true, length: { maximum: 255 }
+  validates :subject_id, presence: true
   validates :description, presence: true
   validates :date, presence: true
   VALID_COST_REGEX = /\A\d+\.?\d+\z/i

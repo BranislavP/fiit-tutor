@@ -10,7 +10,7 @@
         <%= f.text_field :name, class: 'form-control' %>
 
         <%= f.label :subject %>
-        <%= f.text_field :subject, class: 'form-control' %>
+        <%= f.select(:subject_id ,options_from_collection_for_select(Subject.all, :id, :name)) %>
 
         <%= f.label :description %>
         <%= f.text_area :description, class: 'form-control', placeholder: 'Describe your event' %>
@@ -23,6 +23,7 @@
 
         <%= f.label :date %>
         <%= f.datetime_select :date, :order => [:hour, :minute, :day, :month, :year], class: 'form_control' %>
+
 
         <%= f.submit "Create event", class: "btn btn-primary" %>
     <% end %>
