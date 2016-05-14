@@ -1,6 +1,17 @@
 <% if logged_in? %>
-    <div class="text-right">
-      <%= link_to "Create event", creation_path, class: "btn btn-primary text-right" %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <%= form_tag("/", method: "get") do %>
+              <%= label_tag(:subject_search, "Search for:") %>
+              <%= select_tag(:subject_search, options_from_collection_for_select(Subject.all, :id, :name),{include_blank: "All", class: "subject_search" }) %>
+              <%= submit_tag("Search", :class => "btn btn-primary input-btn btn-info") %>
+          <% end %>
+          </div>
+          <div class="col-md-3 text-right">
+            <%= link_to "Create event", creation_path, class: "btn btn-primary text-right" %>
+          </div>
+      </div>
     </div>
     <% if @events.any? %>
         <%= will_paginate @events %>
