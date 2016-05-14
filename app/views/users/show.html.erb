@@ -47,6 +47,11 @@
   </div>
 </div>
   <div class="container">
+    <% if @average[0].average > 0 %>
+      <p>Average rating: <%= @average[0].average %>/10</p>
+    <% else %>
+      <p>No rating yet!</p>
+    <% end %>
     <ul class="ratings">
       <div class="row">
         <%= render @rating %>

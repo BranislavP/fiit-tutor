@@ -24,6 +24,8 @@ class UsersController < ApplicationController
     @rating = Rating.find_by_sql("SELECT u.name, user_id, score, content, tutor_id, r.id FROM ratings r JOIN users u ON u.id = r.user_id
                                  WHERE tutor_id = #{params[:id]} AND user_id = #{current_user.id}
                                 ORDER BY r.created_at ASC").paginate(page: params[:rate], per_page: 5)
+    @average = User.find_by_sql("SELECT coalesce(AVG(score), -1) AS average FROM users u LEFT JOIN ratings r ON u.id = r.tutor_id
+                                WHERE u.id = #{@user.id} GROUP BY u.id")
     redirect_to root_url and return unless @user.activated?
   end
 
