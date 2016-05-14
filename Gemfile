@@ -19,6 +19,7 @@ gem 'redis'
 gem 'formtastic', '~> 3.0'
 gem 'rest-client'
 gem 'nokogiri'
+gem 'ransack'
 
 group :development do
   gem 'byebug'

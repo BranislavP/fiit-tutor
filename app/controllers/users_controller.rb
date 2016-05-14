@@ -10,8 +10,12 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.find_by_sql("SELECT u.id, u.name, email, COUNT(e.id) AS count FROM users u LEFT JOIN events e ON u.id = e.user_id WHERE activated = 't'
-                             GROUP BY u.name, u.id, email ORDER BY u.id").paginate(page: params[:page])
+    @q = User.ransack(params[:q])
+    if params[:q]
+      @users = @q.result(distinct: true).where("activated = 't'").order("id ASC").paginate(page: params[:page])
+    else
+      @users = User.where("activated = 't'").order("id ASC").paginate(page: params[:page])
+    end
   end
 
   def show

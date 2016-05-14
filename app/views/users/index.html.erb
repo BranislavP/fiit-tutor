@@ -1,6 +1,13 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
+<%= search_form_for @q do |f| %>
+    <%= f.label "Search for:" %>
+    <%= f.search_field :name_cont, class: "user_search"%>
+
+    <%= f.submit class: "btn btn-primary btn-info input-btn" %>
+<% end %>
+
 <%= will_paginate %>
 
 <ul class="users">
