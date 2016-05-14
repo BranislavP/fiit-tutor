@@ -22,6 +22,8 @@ class EventsController < ApplicationController
     $redis.pfadd("#{@event[0].id}", "#{user_iden}")
     @card = $redis.pfcount("#{@event[0].id}")
     @new_comment = Comment.new
+    @users = User.find_by_sql("SELECT u.name FROM users u JOIN event_users eu ON u.id = eu.user_id WHERE eu.event_id = #{@event[0].id}")
+    @count = @users.count
   end
 
   def create

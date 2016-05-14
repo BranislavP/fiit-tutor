@@ -34,19 +34,35 @@ Owned by:
   <p>Visited <%= pluralize(@card, "time") %>.</p>
 <% end %>
 <% if signed_in?(current_user, @event[0])  %>
-  <br><hr>
-  <h3>Comments:</h3>
-  <% if @comments.any? %>
-    <ul class="comments">
-      <%= render @comments %>
-    </ul>
-      <%= will_paginate @comments %>
-  <% else  %>
-    <p>No comments yet!</p>
-  <% end  %>
-  <%= form_for(@new_comment) do |f| %>
-      <%= f.hidden_field :event_id, as: :hidden, value: @event[0].id %>
-      <%= f.text_area :content %>
-      <%= f.submit "Send comment", class: "btn btn-success input-btn" %>
-  <% end %>
+    <br><hr>
+    <div>
+      <% if @count == 0 %>
+          <p>No attending users!</p>
+      <% else %>
+        <h4>Number of attending users: <%= @count %> </h4>
+        <ul class="users">
+          <% @users.each do |user| %>
+              <li>
+                <%= user.name %>
+              </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+    <div>
+      <h3>Comments:</h3>
+      <% if @comments.any? %>
+        <ul class="comments">
+          <%= render @comments %>
+        </ul>
+          <%= will_paginate @comments %>
+      <% else  %>
+        <p>No comments yet!</p>
+      <% end  %>
+      <%= form_for(@new_comment) do |f| %>
+          <%= f.hidden_field :event_id, as: :hidden, value: @event[0].id %>
+          <%= f.text_area :content %>
+          <%= f.submit "Send comment", class: "btn btn-success input-btn" %>
+      <% end %>
+    </div>
 <% end  %>
