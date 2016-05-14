@@ -4,6 +4,7 @@ class RatingsController < ApplicationController
     rating = current_user.ratings.build(rating_params)
     if rating.save
       flash[:success] = "Rating created"
+      $redis.del('events')
     else
       flash[:danger] = "Could not rate"
     end
@@ -12,6 +13,7 @@ class RatingsController < ApplicationController
 
   def destroy
     Rating.find(params[:id]).destroy
+    $redis.del('events')
     redirect_to user_path params[:user_id]
   end
 

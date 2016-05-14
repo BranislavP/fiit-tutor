@@ -7,7 +7,9 @@ class StaticPagesController < ApplicationController
     if logged_in?
       events = $redis.get('events')
       if events.nil?
-        events = Event.where("EXTRACT (epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0").to_json
+        events = Event.find_by_sql("SELECT e.id, e.name, coalesce(AVG(score), 10) AS score FROM events e LEFT JOIN users u ON u.id = e.user_id
+                                   LEFT JOIN ratings r ON u.id = r.tutor_id WHERE EXTRACT(epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0
+                                   GROUP BY u.id, e.id ORDER BY e.created_at DESC").to_json
         $redis.set('events', events)
         $redis.expire('events', 1.day)
       end

@@ -4,11 +4,22 @@
     </div>
     <% if @events.any? %>
         <%= will_paginate @events %>
-        <ul class="events">
+        <div class="container">
+          <div class="row">
+            <ul class="events">
               <% @events.map { |event| %>
-                  <li> <%= link_to event['name'], "events/#{event['id']}" %> </li>
+                  <li>
+                    <div class="col-md-10">
+                      <%= link_to event['name'], "events/#{event['id']}" %>
+                    </div>
+                    <div class="col-md-2 text-right">
+                      Owner rating: <%= event['score'] %>/10
+                    </div>
+                  </li>
               <%} %>
-        </ul>
+            </ul>
+          </div>
+        </div>
         <%= will_paginate @events %>
     <% else %>
         <h2>There are no events created yet</h2>
