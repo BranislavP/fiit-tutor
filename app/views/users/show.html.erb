@@ -27,11 +27,9 @@
       <% if !@events.any? %>
           <p>No events yet.</p>
       <% else %>
-          <%= will_paginate @events, param_name: :owned %>
           <ul class="events">
             <%= render @events %>
           </ul>
-          <%= will_paginate @events, param_name: :owned %>
       <% end %>
     </div>
     <% if current_user?(@user) %>
@@ -39,11 +37,9 @@
         <% if !@signed_events.any? %>
           <p>No upcoming events for attendance.</p>
         <% else %>
-            <%= will_paginate @signed_events, param_name: :attending %>
             <ul class="events">
               <%= render @signed_events %>
             </ul>
-            <%= will_paginate @signed_events, param_name: :attending %>
         <% end %>
       </div>
     <% end %>
