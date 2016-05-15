@@ -35,7 +35,9 @@ Owned by:
 <% end %>
 <% if signed_in?(current_user, @event[0])  %>
     <br><hr>
-    <div>
+    <button class="js_button clicked  " data="js_button-comments">Comments:</button>
+    <button class="js_button" data="js_button-users">Attending users:</button>
+    <div class="hidden" data="div-users">
       <% if @count == 0 %>
           <p>No attending users!</p>
       <% else %>
@@ -49,8 +51,7 @@ Owned by:
         </ul>
       <% end %>
     </div>
-    <div>
-      <h3>Comments:</h3>
+    <div class="show" data="div-comments">
       <% if @comments.any? %>
         <ul class="comments">
           <%= render @comments %>

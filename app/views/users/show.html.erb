@@ -16,10 +16,14 @@
                       data: { confirm: "Are you sure you want to delete your account?" } %>
     </div>
 <% end %>
+<button class="js_button clicked" data="js_button-rate">Rating:</button>
+<button class="js_button" data="js_button-owned">Owned events:</button>
+<% if current_user?(@user) %>
+  <button class="js_button" data="js_button-attend">Attending events:</button>
+<% end %>
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <h3>Owned events:</h3>
+    <div class="col-md-6 hidden" data="div-owned">
       <% if !@events.any? %>
           <p>No events yet.</p>
       <% else %>
@@ -31,8 +35,7 @@
       <% end %>
     </div>
     <% if current_user?(@user) %>
-      <div class="col-md-6">
-        <h3>Attending events:</h3>
+      <div class="col-md-6 hidden" data="div-attend">
         <% if !@signed_events.any? %>
           <p>No upcoming events for attendance.</p>
         <% else %>
@@ -46,6 +49,7 @@
     <% end %>
   </div>
 </div>
+<div class="show", data="div-rate">
   <div class="container">
     <% if @average[0].average > 0 %>
       <p>Average rating: <%= @average[0].average %>/10</p>
@@ -59,18 +63,19 @@
       </div>
     </ul>
   </div>
-<% if attended_event?(@user) %>
-    <%= form_for(@new_rating) do |f| %>
+  <% if attended_event?(@user) %>
+      <%= form_for(@new_rating) do |f| %>
 
-        <%= f.hidden_field :tutor_id, as: :hidden, value: @user.id %>
+          <%= f.hidden_field :tutor_id, as: :hidden, value: @user.id %>
 
-        <%= f.label "#{:score} out of 10"%>
-        <%= f.text_field :score, value: 10 %>
+          <%= f.label "#{:score} out of 10"%>
+          <%= f.text_field :score, value: 10 %>
 
-        <%= f.label :content %>
-        <%= f.text_area :content %>
+          <%= f.label :content %>
+          <%= f.text_area :content %>
 
-        <%= f.submit "Rate", class: "btn btn-success input-btn" %>
+          <%= f.submit "Rate", class: "btn btn-success input-btn" %>
 
-    <% end %>
-<% end %>
+      <% end %>
+  <% end %>
+</div>
