@@ -72,7 +72,11 @@ class EventsController < ApplicationController
       id = params[:event_user][:event_id]
     end
     event = Event.where("id = ? AND EXTRACT(epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0", id)
-    redirect_to root_url unless event.any?
+    unless event.any?
+      flash[:info] = "This event has already occured and you can no longer view it."
+      $redis.del('events')
+      redirect_to root_url
+    end
   end
 
 end
