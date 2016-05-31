@@ -22,8 +22,7 @@
         <%= f.text_field :cost, class: 'form-control', value: 0 %>
 
         <%= f.label :date %>
-        <%= f.datetime_select :date, :order => [:hour, :minute, :day, :month, :year], class: 'form_control' %>
-
+        <%= f.text_field :date %>
 
         <%= f.submit "Create event", class: "btn btn-primary" %>
     <% end %>
