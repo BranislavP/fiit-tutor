@@ -35,8 +35,14 @@ Owned by:
 <% end %>
 <% if signed_in?(current_user, @event[0])  %>
     <br><hr>
-    <button class="js_button clicked  " data="js_button-comments">Comments:</button>
-    <button class="js_button" data="js_button-users">Attending users:</button>
+    <ul class="nav nav-tabs">
+      <li class="active" data="js_button-comments">
+        <a>Comments:</a>
+      </li>
+      <li data="js_button-users">
+        <a>Attending users:</a>
+      </li>
+    </ul>
     <div class="hidden" data="div-users">
       <% if @count == 0 %>
           <p>No attending users!</p>

@@ -1,19 +1,11 @@
-.js_button{
-  background-color: white;
-  border: none;
-  font-size: 26px;
-  margin-right: 50px;
-  margin-bottom: 40px;
-}
-
-.js_button:hover{
-  background-color: darkgrey;
-}
-
-.clicked{
-  background-color: lightgrey;
-}
-
-.clicked:hover{
-  background-color: lightgrey;
+.nav-tabs{
+  font-size: 20px;
+  margin-bottom: 25px !important;
+  color: black;
+  li{
+    a{
+      color:black !important;
+      text-decoration: none;
+    }
+  }
 }

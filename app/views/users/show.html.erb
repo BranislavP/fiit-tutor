@@ -16,11 +16,19 @@
                       data: { confirm: "Are you sure you want to delete your account?" } %>
     </div>
 <% end %>
-<button class="js_button clicked" data="js_button-rate">Rating:</button>
-<button class="js_button" data="js_button-owned">Owned events:</button>
-<% if current_user?(@user) %>
-  <button class="js_button" data="js_button-attend">Attending events:</button>
-<% end %>
+<ul class="nav nav-tabs">
+  <li class="active" data="js_button-rate">
+    <a>Rating:</a>
+  </li>
+  <li data="js_button-owned">
+    <a >Owned events:</a>
+  </li>
+  <% if current_user?(@user) %>
+      <li data="js_button-attend">
+        <a>Attending events:</a>
+      </li>
+  <% end %>
+</ul>
 <div class="container">
   <div class="row">
     <div class="col-md-6 hidden" data="div-owned">
