@@ -21,15 +21,15 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @events = Event.where("user_id = ? AND EXTRACT(epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0", @user.id)
-    @signed_events = Event.find_by_sql("SELECT e.id, e.name FROM event_users euv JOIN users u ON u.id = euv.user_id
-                                       JOIN events e ON e.id = euv.event_id WHERE euv.user_id = #{@user.id}
-                                       AND EXTRACT(epoch FROM(e.date + interval '1 day' - CURRENT_TIMESTAMP)) > 0")
+    @signed_events = Event.find_by_sql(["SELECT e.id, e.name FROM event_users euv JOIN users u ON u.id = euv.user_id
+                                       JOIN events e ON e.id = euv.event_id WHERE euv.user_id = ?
+                                       AND EXTRACT(epoch FROM(e.date + interval '1 day' - CURRENT_TIMESTAMP)) > 0", @user.id])
     @new_rating = Rating.new
-    @rating = Rating.find_by_sql("SELECT u.name, user_id, score, content, tutor_id, r.id FROM ratings r JOIN users u ON u.id = r.user_id
-                                 WHERE tutor_id = #{params[:id]} AND user_id = #{current_user.id}
-                                ORDER BY r.created_at ASC").paginate(page: params[:rate], per_page: 5)
-    @average = User.find_by_sql("SELECT coalesce(AVG(score), -1) AS average FROM users u LEFT JOIN ratings r ON u.id = r.tutor_id
-                                WHERE u.id = #{@user.id} GROUP BY u.id")
+    @rating = Rating.find_by_sql(["SELECT u.name, user_id, score, content, tutor_id, r.id FROM ratings r JOIN users u ON u.id = r.user_id
+                                 WHERE tutor_id = ? AND user_id = ?
+                                ORDER BY r.created_at ASC", params[:id], current_user.id]).paginate(page: params[:rate], per_page: 5)
+    @average = User.find_by_sql(["SELECT coalesce(AVG(score), -1) AS average FROM users u LEFT JOIN ratings r ON u.id = r.tutor_id
+                                WHERE u.id = ? GROUP BY u.id", @user.id])
     redirect_to root_url and return unless @user.activated?
   end
 

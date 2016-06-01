@@ -12,17 +12,17 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find_by_sql("SELECT e.id, e.description, e.place, e.date, e.cost, e.user_id, e.name, s.acronym, s.name AS sub_name FROM events e
-                               JOIN subjects s ON s.id = e.subject_id WHERE e.id = #{params[:id]} LIMIT 1")
+    @event = Event.find_by_sql(["SELECT e.id, e.description, e.place, e.date, e.cost, e.user_id, e.name, s.acronym, s.name AS sub_name FROM events e
+                               JOIN subjects s ON s.id = e.subject_id WHERE e.id = ? LIMIT 1", params[:id]])
     @user = User.find(@event[0].user_id)
     @event_sign = EventUser.new
-    @comments = Comment.find_by_sql("SELECT u.id AS iden, c.id, name, content, c.event_id FROM comments c JOIN users u ON u.id = c.user_id
-                                   WHERE c.event_id = #{params[:id]} ORDER BY c.created_at ASC").paginate(page: params[:page], per_page: 10)
+    @comments = Comment.find_by_sql(["SELECT u.id AS iden, c.id, name, content, c.event_id FROM comments c JOIN users u ON u.id = c.user_id
+                                   WHERE c.event_id = ? ORDER BY c.created_at ASC", params[:id]]).paginate(page: params[:page], per_page: 10)
     user_iden = request.remote_ip + current_user.id.to_s
     $redis.pfadd("#{@event[0].id}", "#{user_iden}")
     @card = $redis.pfcount("#{@event[0].id}")
     @new_comment = Comment.new
-    @users = User.find_by_sql("SELECT u.name FROM users u JOIN event_users eu ON u.id = eu.user_id WHERE eu.event_id = #{@event[0].id}")
+    @users = User.find_by_sql(["SELECT u.name FROM users u JOIN event_users eu ON u.id = eu.user_id WHERE eu.event_id = ?", @event[0].id])
     @count = @users.count
   end
 

@@ -7,9 +7,9 @@ class StaticPagesController < ApplicationController
     if logged_in?
       if params[:subject_search] && params[:subject_search] != "" && params[:subject_search].to_i > 0
         q = params[:subject_search].to_i
-        @events = Event.find_by_sql("SELECT e.id, e.name, coalesce(AVG(score), -1) AS score FROM events e LEFT JOIN users u ON u.id = e.user_id
+        @events = Event.find_by_sql(["SELECT e.id, e.name, coalesce(AVG(score), -1) AS score FROM events e LEFT JOIN users u ON u.id = e.user_id
                                    LEFT JOIN ratings r ON u.id = r.tutor_id WHERE EXTRACT(epoch FROM(date + interval '1 day' - CURRENT_TIMESTAMP)) > 0
-                                   AND e.subject_id = #{q} GROUP BY u.id, e.id ORDER BY e.created_at DESC").paginate(page: params[:page])
+                                   AND e.subject_id = ? GROUP BY u.id, e.id ORDER BY e.created_at DESC", q]).paginate(page: params[:page])
       else
         events = $redis.get('events')
         if events.nil?

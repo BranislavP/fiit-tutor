@@ -6,7 +6,7 @@ module EventUsersHelper
   end
 
   def outdated?(event)
-    sign = Event.where("id = #{event.id} AND EXTRACT(epoch FROM(date - CURRENT_TIMESTAMP)) > 0")
+    sign = Event.where("id = ? AND EXTRACT(epoch FROM(date - CURRENT_TIMESTAMP)) > 0", event.id)
     !sign.any?
   end
 end
