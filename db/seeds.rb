@@ -9,18 +9,6 @@ user = User.create!(name:  "Branislav Pecher",
              activated: true,
              activated_at: Time.zone.now)
 
-99.times do |n|
-  name  = Faker::Name.name
-  email = "example-#{n+1}@railstutorial.org"
-  password = "password"
-  User.create!(name:  name,
-               email: email,
-               password:              password,
-               password_confirmation: password,
-               activated: true,
-               activated_at: Time.zone.now)
-end
-
 REQUEST_URL = "is.stuba.sk/katalog/index.pl"
 
 lang = 'sk'
@@ -48,36 +36,3 @@ subject.each do |subj|
   name = subj.match(/ .+$/).to_s.slice((1..subj.length))
   Subject.create(acronym: acronym, name: name, level: level)
 end
-
-users = User.order(:created_at).take(8)
-5.times do
-  users.each do |user|
-    subject = rand(1..30)
-    name = Faker::Lorem.sentence(5)
-    description = Faker::Lorem.sentence(25)
-    place = "FIIT"
-    cost = (1..19).to_a.sample
-    user.events.create!(name: name, subject_id: subject, description: description, place: place, cost: cost, date: Time.zone.tomorrow)
-  end
-end
-
-user.events.create!(name: "Uplne mega event o DBS", subject_id: 3, description: "Budeme riesit DBS", place: "FIIT STU", cost: 5, date: Time.zone.now)
-
-users = User.order(:created_at).take(50)
-100.times do
-  users.each do |user|
-    subject = rand(1..30)
-    name = Faker::Lorem.sentence(5)
-    description = Faker::Lorem.sentence(25)
-    place = "FIIT"
-    cost = (1..19).to_a.sample
-    user.events.create!(name: name, subject_id: subject, description: description, place: place, cost: cost, date: Time.zone.tomorrow)
-  end
-end
-
-user1 = User.first
-user2 = User.find(2)
-test_event = user2.events.create!(name: "Testovaci event", subject_id: 1, description: "Only for testing", place: "FIIT", cost: 8, date: Time.zone.tomorrow)
-user1.event_users.create!(event_id: test_event.id)
-finished_event = user2.events.create!(name: "Vcerajsi", subject_id: 1, description: "Uz bol", place: "FIIT", cost: 8, date: Time.zone.now)
-user1.event_users.create!(event_id: finished_event.id)
