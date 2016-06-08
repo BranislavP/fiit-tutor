@@ -1,8 +1,8 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <%= link_to "Fiit-Tutor", root_path, id: "logo" %>
+    <%= link_to "Fiit-Tutor", root_path, id: "logo", class: 'visible-lg-inline visible-md-inline' %>
     <nav>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right visible-lg-inline visible-md-inline">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <% if logged_in? %>
@@ -25,6 +25,31 @@
               </ul>
             </li>
         <% end %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right visible-sm-block visible-xs-block">
+        <li class = dropdown>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-align-justify"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Help", help_path %></li>
+            <% if logged_in? %>
+                <li><%= link_to "Users", users_path %></li>
+                <li><%= link_to "Subjects", subjects_path %></li>
+                <% if current_user.admin? %>
+                    <li><%= link_to "Reset visits", reset_path %></li>
+                <% end %>
+                    <li><%= link_to "Profile", current_user %></li>
+                    <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Log out", logout_path, method: "delete" %>
+                    </li>
+                </li>
+            <% end %>
+          </ul>
+        </li>
       </ul>
     </nav>
   </div>
