@@ -1,5 +1,5 @@
 $(document).on('click', 'li', function(){
-    if( $("[data^='js_button-']").length != 0) {
+    if($(this).attr('data')) {
         $("[data^='js_button-']").removeClass('active');
         $(this).addClass('active');
         $("div[data^='div-']").removeClass('show').addClass('hidden');
