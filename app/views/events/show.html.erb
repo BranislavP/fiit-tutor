@@ -2,7 +2,12 @@
 <h1><%= @event[0].name %></h1>
 <h3>
 Owned by:
-<%= link_to @user.name, @user %>
+<%= link_to @user.name, @user %> -
+  <% if @rating[0].score > 0 %>
+    <%= @rating[0].score %>/10
+  <% else %>
+    No rating yet!
+  <% end %>
 </h3>
 <% if !current_user?(@user) && !outdated?(@event[0]) %>
     <% if !signed_in?(current_user, @event[0]) %>
