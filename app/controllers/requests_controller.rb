@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  before_action :logged_in_user, only: [:create, :destroy]
   before_action   :not_requested, only: [:create]
   before_action   :requested    , only: [:destroy]
 
