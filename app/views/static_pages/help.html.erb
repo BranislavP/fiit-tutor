@@ -3,11 +3,11 @@
 <% if logged_in? %>
     <p>
       The main reason why this web application was created is to allow students to better organize tutoring sessions.
-      You can rate someone after you participated in one of his tutoring sessions. Students rating is then shown next to
+      You can rate someone after you participated in one of his tutoring sessions. Student's rating is then shown next to
       every event he organises, which helps others to choose the best tutors.
       <br><br>
       There is also a possibility to request a tutoring session in any given subject <%= link_to "here", subjects_path %>. Other students can see
-      the number of request a subject have and then create an event in this subject. If you requested a tutoring session and one of that kind is created,
+      the number of requests a subject have and then create an event in this subject. If you requested a tutoring session and one of that kind is created,
       you will receive an email informing you about it with a link to the created event.
     </p>
 <% else %>
