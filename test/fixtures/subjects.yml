@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+dsa:
+  acronym: DSA
+  name: Datove struktury a algoritmy
+  level: 1
+
+dbs:
+  acronym: DBS
+  name: Databazove systemy
+  level: 1
+
+vos:
+  acronym: VOS
+  name: Vyskumne orientovny seminar
+  level: 1

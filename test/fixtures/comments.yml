@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+first:
+  content: 'First comment'
+  user: michael
+  event: dbs_event
+
+second:
+  content: 'Second comment'
+  user: archer
+  event: dbs_event

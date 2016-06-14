@@ -1,15 +1,28 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-#one:
- # subject: MyString
- # description: MyText
- # place: MyString
- # date: 2016-04-08 09:36:15
- # cost:
+dbs_event:
+  name: Event o DBS
+  description: Nieco
+  place: FIIT STU
+  date: <%= Time.zone.tomorrow %>
+  cost: 8
+  user: lana
+  subject: dbs
 
-#two:
-#  subject: MyString
-#  description: MyText
-#  place: MyString
-#  date: 2016-04-08 09:36:15
-#  cost:
+dsa_event:
+  name: Event o DSA
+  description: Nieco
+  place: FIIT STU
+  date: <%= Time.zone.tomorrow %>
+  cost: 8
+  user: archer
+  subject: dsa
+
+vos_event:
+  name: Event o DSA
+  description: Nieco
+  place: FIIT STU
+  date: <%= Time.zone.yesterday - 2.day %>
+  cost: 8
+  user: archer
+  subject: vos

@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+first:
+  user: michael
+  event: dbs_event
+
+second:
+  user: archer
+  event: dbs_event
