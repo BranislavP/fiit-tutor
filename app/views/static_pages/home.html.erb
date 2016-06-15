@@ -25,7 +25,7 @@
                       <%= link_to event['name'], "events/#{event['id']}" %>
                     </div>
                     <div class="col-md-2 text-right">
-                      <% if event['score'] != -1 %>
+                      <% if event['score'] != '-1.0' %>
                         Owner rating: <%= event['score'] %>/10
                       <% else %>
                         No owner rating yet!
