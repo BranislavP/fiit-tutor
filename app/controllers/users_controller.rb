@@ -25,10 +25,10 @@ class UsersController < ApplicationController
                                        JOIN events e ON e.id = euv.event_id WHERE euv.user_id = ?
                                        AND EXTRACT(epoch FROM(e.date + interval '1 day' - CURRENT_TIMESTAMP)) > 0", @user.id])
     @new_rating = Rating.new
-    @rating = Rating.find_by_sql(["SELECT u.name, user_id, score, content, tutor_id, r.id FROM ratings r JOIN users u ON u.id = r.user_id
+    @rating = Rating.find_by_sql(["SELECT u.name, user_id, round((score)::numeric, 1) AS score, content, tutor_id, r.id FROM ratings r JOIN users u ON u.id = r.user_id
                                  WHERE tutor_id = ?
                                 ORDER BY r.created_at ASC", params[:id]]).paginate(page: params[:rate], per_page: 5)
-    @average = User.find_by_sql(["SELECT coalesce(AVG(score), -1) AS average FROM users u LEFT JOIN ratings r ON u.id = r.tutor_id
+    @average = User.find_by_sql(["SELECT coalesce(round((AVG(score))::numeric,1), -1) AS average FROM users u LEFT JOIN ratings r ON u.id = r.tutor_id
                                 WHERE u.id = ? GROUP BY u.id", @user.id])
     redirect_to root_url and return unless @user.activated?
   end

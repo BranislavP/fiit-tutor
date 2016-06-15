@@ -24,7 +24,7 @@ class EventsController < ApplicationController
     @new_comment = Comment.new
     @users = User.find_by_sql(["SELECT u.name FROM users u JOIN event_users eu ON u.id = eu.user_id WHERE eu.event_id = ?", @event[0].id])
     @count = @users.count
-    @rating = User.find_by_sql(["SELECT COALESCE(AVG(score),-1) AS score FROM users u LEFT JOIN ratings r ON r.tutor_id = u.id WHERE u.id = ?", @user.id])
+    @rating = User.find_by_sql(["SELECT coalesce(round((AVG(score))::numeric,1), -1) AS score FROM users u LEFT JOIN ratings r ON r.tutor_id = u.id WHERE u.id = ?", @user.id])
   end
 
   def create
